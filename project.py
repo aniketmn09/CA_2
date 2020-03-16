@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, session, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from passlib.hash import sha256_crypt
+
 import json
 
 with open('config.json','r') as c:
@@ -62,8 +64,12 @@ def dashboard():
 
     if request.method == 'POST':
        username = request.form.get('uname')
-       userpass = request.form.get('pass')
-       if (username == params['admin_user'] and userpass == params['admin_password']):
+       userpass = request.form.get('pass')   
+      
+      #encryption logic
+       password1 = params['admin_password']       
+       if (username == params['admin_user']):
+        if sha256_crypt.verify(userpass, password1):
            session['user'] = username
            posts = Posts.query.all()
            return render_template('dashboard.html', params=params, posts = posts)
