@@ -94,19 +94,19 @@ def dashboard():
 
     return render_template('login.html', params=params)
 
-
+#for logout
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect('/dashboard')
 
-
+#for Donate us page
 @app.route("/donate")
 def donate():
     
     return render_template('donate.html', params=params)
     
-
+# for adding post
 @app.route("/add_post", methods = ['GET', 'POST'])
 def add_post():
     if(request.method=='POST'):
@@ -121,7 +121,7 @@ def add_post():
         db.session.commit()    
     return render_template('add_post.html', params=params)
 
-
+#for deleting post
 @app.route("/delete/<string:sno>", methods = ['GET', 'POST'])
 def delete(sno):
     if ('user' in session and session['user'] == params['admin_user']):
@@ -130,7 +130,7 @@ def delete(sno):
         db.session.commit()
     return redirect('/dashboard')       
 
-
+#for editing the existing post
 @app.route("/edit/<string:sno>", methods = ['GET', 'POST'])
 def edit_route(sno):
     if ('user' in session and session['user'] == params['admin_user']):
@@ -175,7 +175,7 @@ def edit_route(sno):
         
 
 
-
+# for contact form
 @app.route("/contact", methods = ['GET', 'POST'])
 def contact():
     if(request.method=='POST'):
